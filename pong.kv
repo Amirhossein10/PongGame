@@ -1,0 +1,148 @@
+#:kivy 1.11.1
+
+<PongBall>:
+    size: 50, 50
+    canvas:
+        Color:
+            rgb: (0, 0, 0)
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<PongPaddle>:
+    size: 25, 200
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<OnePlayerWindow>:
+    easy: easy
+    normal: normal
+    hard: hard
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'bg.png'
+
+    GridLayout:
+        cols: 1
+        rows: 3
+
+        col_default_width: 280
+        row_default_height: 100
+        col_force_default: True
+        row_force_default: True
+
+        center: root.width * 0.39, root.height / 1.5
+
+        spacing: 20
+
+        Button:
+            id: easy
+            font_size: '30px'
+            markup: True
+            text: "Easy"
+
+        Button:
+            id: normal
+            font_size: '30px'
+            markup: True
+            text: "Normal"
+
+        Button:
+            id: hard
+            font_size: '30px'
+            markup: True
+            text: "Hard"
+
+<TwoPlayersGame>:
+    ball: pong_ball
+    player1: player_left
+    player2: player_right
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'bg-easy.png'
+
+    canvas:
+        Color:
+            rgb: (0, 0, 0)
+        Rectangle:
+            pos: self.center_x - 5, 0
+            size: 10, self.height
+    
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 70
+        center_x: root.width / 4
+        top: root.top - 50
+        text: str(root.player1.score)
+    
+    Label:
+        color: 0, 0, 0, 1
+        font_size: 70
+        center_x: root.width * 3 / 4
+        top: root.top - 50
+        text: str(root.player2.score)
+    
+    PongBall:
+        id: pong_ball
+        center: self.parent.center
+    
+    PongPaddle:
+        id: player_left
+        x: root.x
+        center_y: root.center_y
+    
+    PongPaddle:
+        id: player_right
+        x: root.width - self.width
+        center_y: root.center_y
+
+<MainWindow>:
+    one_player_btn: one_player_btn
+    two_players_btn: two_players_btn
+    exit_btn: exit_btn
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'bg.png'
+
+    GridLayout:
+        cols: 1
+        rows: 3
+
+        col_default_width: 280
+        row_default_height: 100
+        col_force_default: True
+        row_force_default: True
+
+        center: root.width * 0.39, root.height / 1.5
+
+        spacing: 20
+
+        Button:
+            id: one_player_btn
+            font_size: '30px'
+            markup: True
+            text: "1 Player"
+
+        Button:
+            id: two_players_btn
+            font_size: '30px'
+            markup: True
+            text: "2 Players"
+
+        Button:
+            id: exit_btn
+            font_size: '30px'
+            markup: True
+            text: "Exit"
+            on_release: app.stop()
